@@ -7,8 +7,9 @@ import Sobre from "../pages/Sobre";
 
 export default function Rota() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/portfolio">
             <Routes>
+                <Route path="*" element={<Principal />} />
                 <Route path="/" element={<Principal />} />
                 <Route path="/inicio" element={<Principal />} />
                 <Route path="/conteudos" element={<Conteudos />} />

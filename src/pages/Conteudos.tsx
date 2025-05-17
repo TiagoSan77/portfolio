@@ -85,8 +85,8 @@ export default function Conteudos() {
       <Container>
       <Sidebar />
         <Header>
-          <SiReact size={32} />
-          <h1>Conteúdos Aprendidos</h1>
+          <SiReact size={20} />
+          <h2>Conteúdos Aprendidos</h2>
         </Header>
 
         {semesters.map((sem, i) => (

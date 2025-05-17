@@ -1,7 +1,29 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Sidebar from "../components/Sidebar";
-import { Container } from "../styles/Styled";
+import {
+  SiHtml5,
+  SiBootstrap,
+  SiCss3,
+  SiJavascript,
+  SiJquery,
+  SiReact,
+  SiNodedotjs,
+  SiPostgresql,
+} from "react-icons/si";
+
+import homeControlCli from ".././assets/home_controllCli.png";
+import inicioControlCli from ".././assets/inicio_ControllCLi.png";
+import clientesControlCli from ".././assets/clientes_ControllCli.png";
+import estatisticasControlCli from ".././assets/estatisticas_ControllCli.png";
+import perfilControlCli from ".././assets/perfil_ControllCli.png";
+import clientesControl from ".././assets/clientes_Controll.png";
+
+import finalizarPag from ".././assets/finalizarpag.png";
+import mpFinalizar from ".././assets/mp_finalizar.png";
+import cadastroStore from ".././assets/cadastroStore.png";
+import carrinhoStore from ".././assets/CarrinhoStore.png";
+import perfilStore from ".././assets/Perfil_store.png";
 
 const projetos = [
   {
@@ -9,34 +31,38 @@ const projetos = [
     descricao:
       "Plataforma inteligente para gestão de clientes, com login, envio automatizado de mensagens e dashboards estatísticos.",
     imagens: [
-      ".././src/assets/home_controllCli.png",
-      ".././src/assets/inicio_ControllCLi.png",
-      ".././src/assets/clientes_ControllCli.png",
-      ".././src/assets/estatisticas_ControllCli.png",
-      ".././src/assets/perfil_ControllCli.png",
-      ".././src/assets/clientes_Controll.png",
+      homeControlCli,
+      inicioControlCli,
+      clientesControlCli,
+      estatisticasControlCli,
+      perfilControlCli,
+      clientesControl,
     ],
+    tecnologias: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "jQuery"],
+    icones: [SiHtml5, SiCss3, SiBootstrap, SiJavascript, SiJquery],
   },
   {
-    titulo: "Ecomerce loja para vendas",
+    titulo: "Ecommerce Loja para Vendas",
     descricao:
-      "Ecomerce que possui todas as rotas para cadastrar produtos e usuarios com geração de pagamento pela api do mercado pago.",
+      "Ecommerce completo com cadastro de produtos e usuários e integração de pagamento via API Mercado Pago.",
     imagens: [
-      ".././src/assets/finalizarpag.png",
-      ".././src/assets/mp_finalizar.png",
-      ".././src/assets/cadastroStore.png",
-      ".././src/assets/CarrinhoStore.png",
-      ".././src/assets/Perfil_store.png",
+      finalizarPag,
+      mpFinalizar,
+      cadastroStore,
+      carrinhoStore,
+      perfilStore,
     ],
+    tecnologias: ["React", "Node.js", "PostgreSQL"],
+    icones: [SiReact, SiNodedotjs, SiPostgresql],
   },
 ];
 
-export default function Projetos() {
+export default function ProjetosP() {
   return (
-    <Container>
+    <Wrapper>
       <Sidebar />
       <Content>
-        <Title>Meus Projetos:</Title>
+        <Title>Alguns Projetos:</Title>
         <Cards>
           {projetos.map((projeto, index) => (
             <ProjetoCard key={index}>
@@ -44,12 +70,23 @@ export default function Projetos() {
               <TextContainer>
                 <h2>{projeto.titulo}</h2>
                 <p>{projeto.descricao}</p>
+                <TecnologiasList>
+                  {projeto.tecnologias.map((tech, i) => {
+                    const Icon = projeto.icones[i];
+                    return (
+                      <TecnologiaItem key={tech}>
+                        <Icon size={20} />
+                        <span>{tech}</span>
+                      </TecnologiaItem>
+                    );
+                  })}
+                </TecnologiasList>
               </TextContainer>
             </ProjetoCard>
           ))}
         </Cards>
       </Content>
-    </Container>
+    </Wrapper>
   );
 }
 
@@ -57,14 +94,19 @@ function ImageCarousel({ images }: { images: string[] }) {
   const [index, setIndex] = useState(0);
   const [zoomed, setZoomed] = useState(false);
 
-  const next = () => setIndex((prev) => (prev + 1) % images.length);
-  const prev = () => setIndex((prev) => (prev - 1 + images.length) % images.length);
+  const next = () => setIndex((i) => (i + 1) % images.length);
+  const prev = () => setIndex((i) => (i - 1 + images.length) % images.length);
 
   return (
     <>
       <ImageWrapper>
         {images.length > 1 && <Arrow onClick={prev}>&lt;</Arrow>}
-        <Img src={images[index]} alt="Projeto" onClick={() => setZoomed(true)} />
+        <Img
+          src={images[index]}
+          alt="Projeto"
+          onClick={() => setZoomed(true)}
+          loading="lazy"
+        />
         {images.length > 1 && <Arrow onClick={next}>&gt;</Arrow>}
       </ImageWrapper>
 
@@ -74,8 +116,22 @@ function ImageCarousel({ images }: { images: string[] }) {
             <CloseButton onClick={() => setZoomed(false)}>✕</CloseButton>
             {images.length > 1 && (
               <>
-                <ModalArrowLeft onClick={(e) => { e.stopPropagation(); prev(); }}>&lt;</ModalArrowLeft>
-                <ModalArrowRight onClick={(e) => { e.stopPropagation(); next(); }}>&gt;</ModalArrowRight>
+                <ModalArrowLeft
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prev();
+                  }}
+                >
+                  &lt;
+                </ModalArrowLeft>
+                <ModalArrowRight
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    next();
+                  }}
+                >
+                  &gt;
+                </ModalArrowRight>
               </>
             )}
             <ZoomedImage src={images[index]} alt="Zoomed" />
@@ -86,7 +142,15 @@ function ImageCarousel({ images }: { images: string[] }) {
   );
 }
 
-// Estilização
+// ==================== ESTILOS ====================
+
+const Wrapper = styled.div`
+  display: flex;
+  min-height: 100vh;
+  background-color: #121212;
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+`;
 
 const Content = styled.main`
   flex: 1;
@@ -95,16 +159,8 @@ const Content = styled.main`
   flex-direction: column;
   box-sizing: border-box;
 
-  @media (max-width: 1024px) {
-    padding-left: 100px;
-  }
-
   @media (max-width: 768px) {
-    padding: 60px 20px 40px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 40px 10px;
+    padding: 60px 20px;
   }
 `;
 
@@ -112,62 +168,66 @@ const Title = styled.h1`
   margin-bottom: 30px;
   font-size: 2rem;
   color: #00e0ff;
-
-  @media (max-width: 480px) {
-    font-size: 1.5rem;
-    text-align: center;
-  }
+  text-align: center;
 `;
 
 const Cards = styled.div`
   display: flex;
   flex-direction: column;
   gap: 50px;
-  margin: 0 auto;
-  max-width: 1000px;
-  width: 100%;
-  padding: 0 20px;
-
-  @media (max-width: 768px) {
-    gap: 30px;
-    padding: 0 10px;
-  }
 `;
 
 const ProjetoCard = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   background-color: #1f1f1f;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 0 8px rgba(0, 224, 255, 0.1);
-  gap: 20px;
+  gap: 30px;
 
   @media (max-width: 768px) {
     flex-direction: column;
     text-align: center;
-    padding: 15px;
   }
 `;
 
 const TextContainer = styled.div`
-  max-width: 500px;
-  width: 100%;
+  flex: 1;
+  max-width: 600px;
 
   h2 {
     font-size: 1.5rem;
     color: #00e0ff;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 
   p {
     font-size: 1rem;
     color: #ccc;
+    line-height: 1.6;
   }
+`;
 
-  @media (max-width: 768px) {
-    margin-top: 20px;
+const TecnologiasList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+`;
+
+const TecnologiaItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(0, 224, 255, 0.1);
+  padding: 8px 15px;
+  border-radius: 25px;
+  color: #00e0ff;
+  font-size: 0.9rem;
+
+  &:hover {
+    background-color: rgba(0, 224, 255, 0.2);
   }
 `;
 
@@ -175,8 +235,12 @@ const ImageWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  min-width: 250px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 const Arrow = styled.button`
@@ -186,6 +250,7 @@ const Arrow = styled.button`
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0 10px;
+  transition: color 0.3s;
 
   &:hover {
     color: #fff;
@@ -193,23 +258,21 @@ const Arrow = styled.button`
 `;
 
 const Img = styled.img`
-  height: 300px;
   width: 250px;
+  height: 300px;
   border-radius: 12px;
-  background-color: #2e2e2e;
   border: 2px solid #00e0ff;
-  box-shadow: 0 0 10px rgba(0, 224, 255, 0.2);
   object-fit: cover;
   cursor: zoom-in;
+  transition: transform 0.3s;
 
-  @media (max-width: 768px) {
-    width: 60vw;
-    height: 40vh;
-    max-height: 300px;
+  &:hover {
+    transform: scale(1.02);
   }
 
-  @media (max-width: 480px) {
-    max-height: 250px;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 30vh;
   }
 `;
 
@@ -217,41 +280,35 @@ const ZoomModal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.85);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-  overflow-y: auto;
+  z-index: 1000;
 `;
 
 const ModalContent = styled.div`
   position: relative;
   max-width: 90%;
   max-height: 90%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: -15px;
-  right: -15px;
-  background: #00e0ff;
+  top: -40px;
+  right: -10px;
+  background: none;
   border: none;
-  border-radius: 50%;
-  color: black;
-  font-weight: bold;
-  font-size: 1.2rem;
+  color: #00e0ff;
+  font-size: 2rem;
   cursor: pointer;
-  padding: 5px 10px;
+  padding: 5px;
+  transition: color 0.3s;
 
   &:hover {
-    background: white;
+    color: #fff;
   }
 `;
 
@@ -259,11 +316,10 @@ const ModalArrow = styled(Arrow)`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 3rem;
-  padding: 20px;
+  font-size: 2rem;
+  padding: 15px;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 50%;
-  z-index: 1000;
 `;
 
 const ModalArrowLeft = styled(ModalArrow)`
@@ -276,8 +332,9 @@ const ModalArrowRight = styled(ModalArrow)`
 
 const ZoomedImage = styled.img`
   max-width: 100%;
-  max-height: 90vh;
-  border-radius: 10px;
-  border: 3px solid #00e0ff;
+  max-height: 80vh;
+  border-radius: 8px;
+  border: 2px solid #00e0ff;
+  box-shadow: 0 0 20px rgba(0, 224, 255, 0.3);
   object-fit: contain;
 `;

@@ -1,61 +1,46 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import {
-  FiMenu,
-  FiX,
-  FiHome,
-  FiFolder,
-  FiChevronDown,
-  FiChevronUp,
-  FiUser,
-  FiBookOpen,
+  FiMenu, FiX, FiHome, FiFolder,
+  FiChevronDown, FiChevronUp, FiUser, FiBookOpen
 } from "react-icons/fi";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
   const [showProjetos, setShowProjetos] = useState(false);
 
-  const toggleSidebar = () => setIsOpen(!isOpen);
-  const toggleProjetos = () => setShowProjetos(!showProjetos);
-
   return (
     <SidebarContainer isOpen={isOpen}>
-      <ToggleButton onClick={toggleSidebar} isOpen={isOpen}>
+      <ToggleButton onClick={() => setIsOpen(o => !o)} isOpen={isOpen}>
         {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </ToggleButton>
 
       <Nav>
-        <NavItem href="/inicio" isOpen={isOpen}>
-          <FiHome size={20} />
-          <span>Início</span>
+        <NavItem to="/inicio" isOpen={isOpen}>
+          <FiHome size={20} /><span>Início</span>
         </NavItem>
 
         <Dropdown>
-          <NavItem as="div" isOpen={isOpen} onClick={toggleProjetos}>
+          <DropdownToggle onClick={() => setShowProjetos(p => !p)} isOpen={isOpen}>
             <FiFolder size={20} />
             {isOpen && <span>Projetos</span>}
-            {showProjetos &&
-              (isOpen ? <FiChevronUp size={16} /> : null)}
-            {!showProjetos &&
-              (isOpen ? <FiChevronDown size={16} /> : null)}
-          </NavItem>
-
+            {isOpen && (showProjetos ? <FiChevronUp size={16} /> : <FiChevronDown size={16} />)}
+          </DropdownToggle>
           {showProjetos && (
             <Submenu isOpen={isOpen}>
-              <SubItem href="/projetos/fatec">Faculdade</SubItem>
-              <SubItem href="/projetos/meusprojetos">Pessoais</SubItem>
+              <SubItem to="/projetos/fatec">Faculdade</SubItem>
+              <SubItem to="/projetos/meusprojetos">Pessoais</SubItem>
             </Submenu>
           )}
         </Dropdown>
 
-        <NavItem href="/sobre" isOpen={isOpen}>
-          <FiUser size={20} />
-          <span>Sobre</span>
+        <NavItem to="/sobre" isOpen={isOpen}>
+          <FiUser size={20} /><span>Sobre</span>
         </NavItem>
 
-        <NavItem href="/conteudos" isOpen={isOpen}>
-          <FiBookOpen size={20} />
-          <span>Aprendizados</span>
+        <NavItem to="/conteudos" isOpen={isOpen}>
+          <FiBookOpen size={20} /><span>Aprendizados</span>
         </NavItem>
       </Nav>
     </SidebarContainer>
@@ -117,8 +102,9 @@ const Nav = styled.nav`
   width: 100%;
 `;
 
-const NavItem = styled.a<{ isOpen: boolean }>`
+const NavItem = styled(Link)<{ isOpen: boolean }>`
   display: flex;
+  align-items: center;
   gap: ${({ isOpen }) => (isOpen ? "12px" : "0")};
   justify-content: ${({ isOpen }) => (isOpen ? "flex-start" : "center")};
   color: inherit;
@@ -136,13 +122,32 @@ const NavItem = styled.a<{ isOpen: boolean }>`
     display: ${({ isOpen }) => (isOpen ? "inline" : "none")};
     white-space: nowrap;
   }
-
-  svg:last-child {
-  }
 `;
 
 const Dropdown = styled.div`
   width: 100%;
+`;
+
+const DropdownToggle = styled.div<{ isOpen: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: ${({ isOpen }) => (isOpen ? "12px" : "0")};
+  justify-content: ${({ isOpen }) => (isOpen ? "flex-start" : "center")};
+  color: inherit;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 224, 255, 0.15);
+  }
+
+  span {
+    display: ${({ isOpen }) => (isOpen ? "inline" : "none")};
+    white-space: nowrap;
+  }
 `;
 
 const Submenu = styled.div<{ isOpen?: boolean }>`
@@ -154,7 +159,7 @@ const Submenu = styled.div<{ isOpen?: boolean }>`
   gap: 6px;
 `;
 
-const SubItem = styled.a`
+const SubItem = styled(Link)`
   font-size: 0.95rem;
   color: #ccc;
   text-decoration: none;
