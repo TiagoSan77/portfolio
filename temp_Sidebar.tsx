@@ -90,14 +90,14 @@ export default function Sidebar() {
   );
 }
 
-// ==================== ESTILOS ====================
+// ==================== ESTILOS RESPONSIVOS ====================
 
 const MobileMenuButton = styled.button<{ isMobile: boolean }>`
   display: ${({ isMobile }) => (isMobile ? 'flex' : 'none')};
   position: fixed;
   top: 1rem;
   left: 1rem;
-  z-index: 1002;
+  z-index: 1100;
   background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
   border: none;
   color: white;
@@ -120,46 +120,61 @@ const Overlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(2px);
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
-const SidebarContainer = styled.aside<{ isOpen: boolean; isMobile: boolean }>`
+const SidebarContainer = styled.div<{ isOpen: boolean; isMobile: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  width: ${({ isOpen, isMobile }) => 
-    isMobile ? (isOpen ? '280px' : '0') : '240px'};
+  width: ${({ isMobile, isOpen }) => {
+    if (isMobile) {
+      return isOpen ? '280px' : '0px';
+    }
+    return '240px';
+  }};
   background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(20px);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   color: #eaeaea;
   display: flex;
   flex-direction: column;
-  padding: ${({ isOpen, isMobile }) => 
-    isMobile ? (isOpen ? '2rem 1.5rem' : '0') : '2rem 1.5rem'};
+  padding: ${({ isMobile, isOpen }) => {
+    if (isMobile) {
+      return isOpen ? '2rem 1.5rem' : '0';
+    }
+    return '2rem 1.5rem';
+  }};
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 1px 0 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   overflow: hidden;
 
-  @media (max-width: 767px) {
-    width: ${({ isOpen }) => (isOpen ? '280px' : '0')};
-  }
-
   @media (min-width: 768px) {
     width: 70px;
-    padding: 1.5rem 0.5rem;
+    padding: 1.5rem 0.75rem;
 
     &:hover {
       width: 240px;
       padding: 2rem 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    width: 240px;
+    padding: 2rem 1.5rem;
+
+    &:hover {
+      width: 240px;
     }
   }
 `;
@@ -170,7 +185,7 @@ const Brand = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 1.5rem;
 
-  @media (min-width: 768px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
     ${SidebarContainer}:not(:hover) & {
       margin-bottom: 2rem;
       padding-bottom: 1rem;
@@ -185,22 +200,18 @@ const BrandText = styled.h1`
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin: 0 0 0.5rem 0;
-
-  @media (min-width: 768px) {
-    ${SidebarContainer}:not(:hover) & {
-      font-size: 1.5rem;
-    }
-  }
+  margin: 0;
+  letter-spacing: -0.02em;
 `;
 
 const BrandSubtext = styled.p`
   font-size: 0.9rem;
-  color: #b0b0b0;
+  color: #888;
   margin: 0;
+  margin-top: 0.25rem;
   font-weight: 300;
 
-  @media (min-width: 768px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
     ${SidebarContainer}:not(:hover) & {
       display: none;
     }
@@ -208,28 +219,27 @@ const BrandSubtext = styled.p`
 `;
 
 const Nav = styled.nav`
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  flex: 1;
 `;
 
-const NavItem = styled(Link)<{ isActive: boolean }>`
+const NavItem = styled(Link)<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   gap: 1rem;
+  color: ${({ isActive }) => (isActive ? '#4ecdc4' : 'inherit')};
+  text-decoration: none;
   padding: 1rem;
   border-radius: 12px;
-  text-decoration: none;
-  color: ${({ isActive }) => (isActive ? '#4ecdc4' : '#eaeaea')};
-  background: ${({ isActive }) => 
-    isActive ? 'linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%)' : 'transparent'};
-  border: 1px solid ${({ isActive }) => 
-    isActive ? 'rgba(78, 205, 196, 0.3)' : 'transparent'};
   transition: all 0.3s ease;
-  font-weight: 500;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
+  font-weight: ${({ isActive }) => (isActive ? '600' : '400')};
+  background: ${({ isActive }) => 
+    isActive ? 'linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%)' : 'transparent'};
 
   &::before {
     content: '';
@@ -243,7 +253,7 @@ const NavItem = styled(Link)<{ isActive: boolean }>`
   }
 
   &:hover {
-    background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
     transform: translateX(4px);
     color: #4ecdc4;
     
@@ -254,39 +264,43 @@ const NavItem = styled(Link)<{ isActive: boolean }>`
 
   span {
     font-size: 0.95rem;
-    
-    @media (min-width: 768px) {
+    white-space: nowrap;
+
+    @media (min-width: 768px) and (max-width: 1023px) {
       ${SidebarContainer}:not(:hover) & {
         display: none;
       }
     }
   }
 
-  @media (min-width: 768px) {
-    ${SidebarContainer}:not(:hover) & {
-      justify-content: center;
-      padding: 1rem 0.5rem;
-    }
+  svg {
+    min-width: 20px;
   }
 `;
 
 const DropdownContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 `;
 
 const DropdownToggle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: inherit;
+  text-decoration: none;
   padding: 1rem;
   border-radius: 12px;
-  cursor: pointer;
-  color: #eaeaea;
   transition: all 0.3s ease;
-  font-weight: 500;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
+  font-weight: 400;
+
+  .main-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
   &::before {
     content: '';
@@ -300,7 +314,7 @@ const DropdownToggle = styled.div`
   }
 
   &:hover {
-    background: linear-gradient(135deg, rgba(255, 107, 107, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
     transform: translateX(4px);
     color: #4ecdc4;
     
@@ -309,28 +323,20 @@ const DropdownToggle = styled.div`
     }
   }
 
-  .main-content {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    
-    span {
-      font-size: 0.95rem;
-      
-      @media (min-width: 768px) {
-        ${SidebarContainer}:not(:hover) & {
-          display: none;
-        }
+  span {
+    font-size: 0.95rem;
+    white-space: nowrap;
+
+    @media (min-width: 768px) and (max-width: 1023px) {
+      ${SidebarContainer}:not(:hover) & {
+        display: none;
       }
     }
   }
 
-  @media (min-width: 768px) {
-    ${SidebarContainer}:not(:hover) & {
-      justify-content: center;
-      padding: 1rem 0.5rem;
-      
-      svg:last-child {
+  svg:last-child {
+    @media (min-width: 768px) and (max-width: 1023px) {
+      ${SidebarContainer}:not(:hover) & {
         display: none;
       }
     }
@@ -340,32 +346,28 @@ const DropdownToggle = styled.div`
 const Submenu = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   flex-direction: column;
-  gap: 0.25rem;
-  margin-left: 2rem;
-  margin-top: 0.5rem;
-  border-left: 2px solid rgba(255, 107, 107, 0.3);
   padding-left: 1rem;
-
-  @media (min-width: 768px) {
-    ${SidebarContainer}:not(:hover) & {
-      display: none;
-    }
-  }
+  margin-top: 0.5rem;
+  gap: 0.25rem;
+  border-left: 2px solid rgba(255, 107, 107, 0.3);
+  margin-left: 1rem;
 `;
 
-const SubItem = styled(Link)<{ isActive: boolean }>`
+const SubItem = styled(Link)<{ isActive?: boolean }>`
+  font-size: 0.9rem;
+  color: ${({ isActive }) => (isActive ? '#4ecdc4' : '#ccc')};
+  text-decoration: none;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  text-decoration: none;
-  color: ${({ isActive }) => (isActive ? '#4ecdc4' : '#ccc')};
+  transition: all 0.3s ease;
+  text-align: left;
+  width: 100%;
+  font-weight: ${({ isActive }) => (isActive ? '500' : '300')};
   background: ${({ isActive }) => 
     isActive ? 'rgba(78, 205, 196, 0.1)' : 'transparent'};
-  font-size: 0.9rem;
-  font-weight: 400;
-  transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(78, 205, 196, 0.1);
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(69, 183, 209, 0.1) 100%);
     color: #4ecdc4;
     transform: translateX(4px);
   }
@@ -373,11 +375,11 @@ const SubItem = styled(Link)<{ isActive: boolean }>`
 
 const Footer = styled.div`
   margin-top: auto;
-  padding-top: 2rem;
+  padding-top: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
 
-  @media (min-width: 768px) {
+  @media (min-width: 768px) and (max-width: 1023px) {
     ${SidebarContainer}:not(:hover) & {
       display: none;
     }
@@ -386,6 +388,7 @@ const Footer = styled.div`
 
 const FooterText = styled.p`
   font-size: 0.8rem;
-  color: #888;
+  color: #666;
   margin: 0;
+  font-weight: 300;
 `;

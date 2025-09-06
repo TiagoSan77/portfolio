@@ -1,96 +1,175 @@
 import styled from "styled-components";
 import Sidebar from "../components/Sidebar";
-import { Container } from "../styles/Styled";
+import { Container, MainContent, PageTitle, Card } from "../styles/Styled";
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #1f1f1f;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 0 8px rgba(0, 224, 255, 0.1);
-  gap: 20px;
+export default function Sobre() {
+  return (
+    <Container>
+      <Sidebar />
+      <MainContent>
+        <PageTitle>Sobre mim</PageTitle>
 
-  @media (max-width: 768px) {
-    text-align: center;
+        <AboutGrid>
+          <IntroCard>
+            <Description>
+              Me chamo Tiago Santini Da Silva, tenho 25 anos e estou cursando a faculdade de Desenvolvimento de Software Multiplataformas na FATEC Professor Francisco de Moura.
+            </Description>
+            <Description>
+              Estou em busca de experiência na área, com preferência por vagas remotas ou híbridas.
+            </Description>
+            <Description>
+              Me considero um desenvolvedor fullstack em formação, com maior afinidade pelo backend.
+              Tenho capacidade para criar projetos e APIs REST.
+              Atualmente estou aprendendo a desenvolver projetos baseados em IA vertical, chatbots e integrações no backend.
+            </Description>
+          </IntroCard>
+
+          <FAQSection>
+            <SectionTitle>Perguntas Frequentes</SectionTitle>
+            <Perguntas>
+              <Pergunta>
+                <h3>Quais tecnologias foram utilizadas para desenvolver esse Portfólio?</h3>
+                <p>
+                  O projeto foi desenvolvido com 
+                  <TechBadge>React-TS</TechBadge>
+                  <TechBadge>React Router Dom</TechBadge>
+                  <TechBadge>Styled-Components</TechBadge>
+                  <TechBadge>React Icons</TechBadge>
+                </p>
+              </Pergunta>
+              <Pergunta>
+                <h3>Está disponível para trabalho remoto?</h3>
+                <p>Sim, estou buscando oportunidades remotas ou híbridas.</p>
+              </Pergunta>
+              <Pergunta>
+                <h3>Você trabalha bem em equipe?</h3>
+                <p>Sim, já participei de diversos projetos em grupo na faculdade utilizando metodologias ágeis como Scrum.</p>
+              </Pergunta>
+              <Pergunta>
+                <h3>Você está em busca de estágio?</h3>
+                <p>Sim, da data de criação desse repositório 14/05/2025</p>
+              </Pergunta>
+            </Perguntas>
+          </FAQSection>
+        </AboutGrid>
+      </MainContent>
+    </Container>
+  );
+}
+
+// ==================== ESTILOS ====================
+
+const AboutGrid = styled.div`
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
   }
 `;
 
-const Title = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #00e0ff;;
+const IntroCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const FAQSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  @media (min-width: 768px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const Description = styled.div`
-  color: #ccc;
-  width: 50vw;
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 400;
+  
+  @media (min-width: 768px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const Perguntas = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 20px;
-  width: 50vw;
+  gap: 1rem;
 `;
 
-const Pergunta = styled.div`
-  background-color: #2a2a2a;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 0 6px rgba(0, 224, 255, 0.05);
+const Pergunta = styled(Card)`
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 4px solid transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), 
+                   linear-gradient(135deg, #ff6b6b, #4ecdc4);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  &:hover {
+    transform: translateX(8px) translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255, 107, 107, 0.15);
+  }
 
   h3 {
-    margin: 0 0 8px;
-    color: #00e0ff;
+    margin: 0 0 0.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+
+    @media (min-width: 768px) {
+      font-size: 1.1rem;
+    }
   }
 
   p {
     margin: 0;
-    color: #ccc;
+    color: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    font-weight: 400;
+
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
   }
 `;
 
-export default function Sobre() {
-  return (
-    <Container>
-      <Card>
-        <Sidebar />
-        <Title>Sobre mim:</Title>
+const TechBadge = styled.span`
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(78, 205, 196, 0.2) 100%);
+  color: #4ecdc4;
+  padding: 0.25rem 0.6rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 0.2rem 0.3rem;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  transition: all 0.3s ease;
 
-        <Description>
-          Me chamo Tiago Santini Da Silva, tenho 25 anos e estou cursando a faculdade de Desenvolvimento de Software Multiplataformas na FATEC Professor Francisco de Moura.
-        </Description>
-        <Description>
-          Estou em busca de experiência na área, com preferência por vagas remotas ou híbridas.
-        </Description>
-        <Description>
-          Me considero um desenvolvedor fullstack em formação, com maior afinidade pelo backend.
-          Tenho capacidade para criar projetos e APIs REST.
-          Atualmente estou aprendendo a desenvolver projetos baseados em IA vertical, chatbots e integrações no backend.
-        </Description>
+  &:hover {
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.3) 0%, rgba(78, 205, 196, 0.3) 100%);
+    transform: scale(1.05);
+  }
 
-        <Perguntas>
-          <Pergunta>
-            <h3>Quais tecnologias foram ultilizadas para desenvolver esse Portifolio?</h3>
-            <p>O projeto foi desenvolvido com React-ts, com as bibliotecas: React Router Dom, Styled-Component, React Icons.</p>
-          </Pergunta>
-          <Pergunta>
-            <h3>Está disponível para trabalho remoto?</h3>
-            <p>Sim, estou buscando oportunidades remotas ou híbridas.</p>
-          </Pergunta>
-          <Pergunta>
-            <h3>Você trabalha bem em equipe?</h3>
-            <p>Sim, já participei de diversos projetos em grupo na faculdade utilizando metodologias ágeis como Scrum.</p>
-          </Pergunta>
-          <Pergunta>
-            <h3>Você esta em busca de estagio?</h3>
-            <p>Sim, da data de criação desse repositorio 14/05/2025</p>
-          </Pergunta>
-        </Perguntas>
-      </Card>
-    </Container>
-  );
-}
+  @media (min-width: 768px) {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.7rem;
+  }
+`;

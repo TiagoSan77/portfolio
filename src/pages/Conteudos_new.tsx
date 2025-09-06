@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container, MainContent, PageTitle, Grid, Card as BaseCard, Tag } from "../styles/Styled";
+import { Container, MainContent, PageTitle } from "../styles/Styled";
 import Sidebar from "../components/Sidebar";
 import {
   SiHtml5,
@@ -25,10 +25,22 @@ const breakpoints = {
   desktop: '1024px',
 };
 
-const ContentCard = styled(BaseCard)`
+const ContentCard = styled.div`
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
   padding: 2rem;
   margin-bottom: 2rem;
-  
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 107, 107, 0.3);
+  }
+
   @media (max-width: ${breakpoints.tablet}) {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
@@ -246,7 +258,9 @@ export default function Conteudos() {
 
   const semesters = [
     {
-      icon: <SiHtml5 size={24} />, title: "1º Semestre", items: [
+      icon: <SiHtml5 size={24} />, 
+      title: "1º Semestre", 
+      items: [
         { icon: <SiHtml5 size={20} />, label: "HTML5" },
         { icon: <SiCss3 size={20} />, label: "CSS3" },
         { icon: <SiBootstrap size={20} />, label: "Bootstrap" },
@@ -256,9 +270,13 @@ export default function Conteudos() {
       ]
     },
     {
-      icon: <SiPrisma size={24} />, title: "2º Semestre", sections: [
+      icon: <SiPrisma size={24} />, 
+      title: "2º Semestre", 
+      sections: [
         {
-          title: "Backend", icon: <FiServer size={20} />, items: [
+          title: "Backend", 
+          icon: <FiServer size={20} />, 
+          items: [
             { icon: <SiTypescript size={20} />, label: "TypeScript" },
             { icon: <SiNodedotjs size={20} />, label: "Node.js" },
             { icon: <SiPrisma size={20} />, label: "Prisma" },
@@ -266,7 +284,9 @@ export default function Conteudos() {
           ]
         },
         {
-          title: "Frontend", icon: <FiLayout size={20} />, items: [
+          title: "Frontend", 
+          icon: <FiLayout size={20} />, 
+          items: [
             { icon: <SiVite size={20} />, label: "Vite" },
             { icon: <SiReact size={20} />, label: "React" },
             { icon: <SiStyledcomponents size={20} />, label: "Styled‑Components" },
@@ -277,9 +297,13 @@ export default function Conteudos() {
       ]
     },
     {
-      icon: <SiMongodb size={24} />, title: "3º Semestre", sections: [
+      icon: <SiMongodb size={24} />, 
+      title: "3º Semestre", 
+      sections: [
         {
-          title: "Backend", icon: <FiServer size={20} />, items: [
+          title: "Backend", 
+          icon: <FiServer size={20} />, 
+          items: [
             { icon: <SiTypescript size={20} />, label: "TypeScript" },
             { icon: <SiNodedotjs size={20} />, label: "Node.js" },
             { icon: <SiMongodb size={20} />, label: "MongoDB" },
@@ -289,7 +313,9 @@ export default function Conteudos() {
           ]
         },
         {
-          title: "Frontend", icon: <FiLayout size={20} />, items: [
+          title: "Frontend", 
+          icon: <FiLayout size={20} />, 
+          items: [
             { icon: <SiVite size={20} />, label: "Vite" },
             { icon: <SiReact size={20} />, label: "React" },
             { icon: <SiStyledcomponents size={20} />, label: "Styled‑Components" },
